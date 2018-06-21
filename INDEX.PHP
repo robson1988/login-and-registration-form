@@ -1,4 +1,12 @@
+<?php
+  session_start();
+
+?>
+
+
+
 <!DOCTYPE html>
+<html>
 <head>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
@@ -8,7 +16,7 @@
 
           <div class="container d-flex justify-content-center">
             <div class="row col ">
-              <form  class="row col-md-12" method="POST" action="login.php">
+              <form  class="row col-md-12" action="login.php" method="POST">
                 <div class="col text-left"><h1 class="header">sign in</h1></div>
                 <div class="col text-center"><input type="text" name="us_name" placeholder="Username or email"></div>
                 <div class="col text-center"><input type="password" name="us_pass" placeholder="Password"></div>
