@@ -1,2 +1,6 @@
-.container { width:400px; height:300x;position:absolute;top:calc(50% - 150px); left:calc(50% - 200px);}
-.header {text-transform: uppercase;}
+
+.error_bar {padding: 1rem; }
+.alert-danger {color:#000;}
+.sign_in_form { width:400px; height:300px;position:absolute;top:calc(50% - 150px); left:calc(50% - 200px); border: 1px solid #0f0f0f; border-radius: 1rem;}
+.header {text-transform: uppercase; padding-top: .5rem;}
+.sign_in {width:280px; height:50px;}

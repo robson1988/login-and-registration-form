@@ -13,13 +13,26 @@
     <link rel="stylesheet" type="text/css" href="style.css" >
 </head>
 <body>
+<!-- SIGN IN ERROR MESSAGE BAR -->
+<div class="error_bar">
+  <?php
+    if(isset($_SESSION['signup_error'] ))
+    { $signuperr = $_SESSION['signup_error'];
+      echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'.$signuperr.'
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+      </button></div>';
+      unset($_SESSION['signup_error']);
+    }
+  ?>
+</div>
 
-          <div class="container d-flex justify-content-center">
-            <div class="row col ">
-              <form  class="row col-md-12" action="login.php" method="POST">
+<!-- SIGN IN FORM -->
+          <div class="container d-flex justify-content-center sign_in_form">
+            <div class="row col-12 justify-content-center">
+              <form  class="row col-12" action="login.php" method="POST">
                 <div class="col text-left"><h1 class="header">sign in</h1></div>
-                <div class="col text-center"><input type="text" name="us_name" placeholder="Username or email"></div>
-                <div class="col text-center"><input type="password" name="us_pass" placeholder="Password"></div>
+                <div class="col text-center"><input class="sign_in" type="text" name="us_name" placeholder="Username or email"></div>
+                <div class="col text-center"><input class="sign_in" type="password" name="us_pass" placeholder="Password"></div>
                 <div class="col-12 text-right"><a href="reset.php">Forget your password?</a></div>
                 <div class="col text-center"><input type="submit" name="us_submit" value="Submit"></div>
               </form>
