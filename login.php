@@ -9,7 +9,7 @@ session_start();
     //error handlers
     //empty input
     if (empty($us_name) || empty($us_pass)) {
-      $_SESSION['signup_error'] = "Ooops! U forget to fill out all fields.";
+      $_SESSION['sign_in_error'] = "Ooops! U forget to fill out all fields.";
       header("Location: index.php");
       exit();
     } else {
@@ -17,7 +17,7 @@ session_start();
       $result = mysqli_query($connect, $sql);
       $resultCheck = mysqli_num_rows($result);
       if ($resultCheck < 1) {
-        $_SESSION['signup_error'] = "Ooops! Username or Password doesn't match.";
+        $_SESSION['sign_in_error'] = "Ooops! Username or Password doesn't match.";
         header("Location: index.php");
         exit();
       } else {
@@ -25,11 +25,12 @@ session_start();
           //CHECKING PASSWORD MATCHING
           $dbpass = $row['u_pass'];
           if($dbpass != $_POST['us_pass']){
-           $_SESSION['signup_error'] = "Ooops! Username or Password doesn't match.";
+           $_SESSION['sign_in_error'] = "Ooops! Username or Password doesn't match.";
            header("Location: index.php");
            exit();
           } elseif ($dbpass == $_POST['us_pass']) {
             //LOGIN USER
+            $_SESSION['signed'] = true;
             $_SESSION['us_id'] = $row['u_id'];
             $_SESSION['us_name'] = $row['u_name'];
             $_SESSION['us_surname'] = $row['u_surname'];
