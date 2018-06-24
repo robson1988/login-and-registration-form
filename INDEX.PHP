@@ -24,16 +24,41 @@
   ?>
 </div>
 
-<!-- SIGN IN FORM -->
+<!--FORM -->
           <div class="container d-flex justify-content-center sign_in_form">
             <div class="row col-12 justify-content-center">
-              <form  class="row col-12" action="login.php" method="POST">
-                <div class="col text-left"><h1 class="header">sign in</h1></div>
-                <div class="col text-center"><input class="sign_in" type="text" name="us_name" placeholder="Username or email"></div>
-                <div class="col text-center"><input class="sign_in" type="password" name="us_pass" placeholder="Password"></div>
-                <div class="col-12 text-right"><a href="reset.php">Forget your password?</a></div>
-                <div class="col text-center"><input type="submit" name="us_submit" value="Submit"></div>
-              </form>
+
+<!--NAVIGATION-->
+  <div class="row align-top ">
+    <ul class="nav nav-pills m-auto text-center  " >
+      <li class="nav-item"><a class="nav-link active" href="#login" role="tab" data-toggle="pill">Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="#register" role="tab" data-toggle="pill">Sign Up</a></li>
+    </ul>
+  </div>
+<!--LOG IN FORM-->
+              <div class="tab-content">
+                <div class="tab-pane fade show active" role="tabpanel" id="login">
+                  <form class="justify-content-center " action="login.php" method="POST">
+                  <h2 class="header">sign in</h2>
+                  <input class="sign" type="text" name="us_name" placeholder="Username or email">
+                  <input class="sign" type="password" name="us_pass" placeholder="Password">
+                  <div class="text-right fLink" ><a href="reset.php">Forget your password?</a></div>
+                  <button type="submit" name="us_submit" class="btn btn-primary btn-block">Submit</button>
+                  </form>
+                </div>
+<!--SIGN IN FORM-->
+                <div class="tab-pane fade"  role="tabpanel" id="register">
+                    <form  class="justify-content-center" action="login.php" method="POST">
+                    <h2 class="header">Sign Up</h2>
+                      <input class="sign" type="text" name="new_us_username" placeholder="Username">
+                      <input class="sign" type="text" name="new_us_name" placeholder="Name">
+                      <input class="sign" type="text" name="new_us_surname" placeholder="Surname">
+                      <input class="sign" type="e-mail" name="new_us_mail" placeholder="Email">
+                      <input class="sign" type="password" name="new_us_pass" placeholder="Password">
+                      <button type="submit" name="us_submit" class="btn btn-primary btn-block">Submit</button>
+                    </form>
+                </div>
+              </div>
             </div>
           </div>
 
