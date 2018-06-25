@@ -1,11 +1,11 @@
 <?php
 
 session_start();
-  if (!isset($_SESSION['signed'])) {
+  if (!isset($_SESSION['loged_in'])) {
     header("Location: index.php");
     exit();
   } else {
-    $_SESSION['sign_out_success'] = "Sign out successful!";
+    $_SESSION['log_out_success'] = "Log out successful!";
     header("Location: index.php");
     exit();
   }

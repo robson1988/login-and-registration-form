@@ -11,7 +11,7 @@ session_start();
 <body>
     <div class="container">
       <div class="row">
-        <a href="logout.php">Sign out</a>
+        <a href="logout.php">Log out</a>
 
 
       </div>
