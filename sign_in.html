@@ -21,18 +21,34 @@
             <div class="row">
 <!--SIGN IN FORM-->
                   <div class="sign_in_form">
-                    <form action="sign_in.php" method="POST">
+                    <form action="register.php" method="POST">
                       <h2 class="header">Sign Up</h2>
                       <input class="sign" type="text" name="new_us_username" placeholder="Username">
                       <input class="sign" type="text" name="new_us_name" placeholder="Name">
                       <input class="sign" type="text" name="new_us_surname" placeholder="Surname">
                       <input class="sign" type="e-mail" name="new_us_mail" placeholder="Email">
                       <input class="sign" type="password" name="new_us_pass" placeholder="Password">
-                      <button type="submit" name="us_submit" class="btn btn-primary btn-block">Submit</button>
+<!-- CHECKBOX-->
+                      <div class="checkbox_policy mt-3">
+                        <div class="input-group-text">
+                          <input type="checkbox" aria-label="Checkbox for following text input">
+                          <p class=" policy">Accept our policy</p>
+                        </div>
+                      </div>
+<!-- CAPCHA-->
+                      <div class="captcha mt-2">
+                        <div class="g-recaptcha" data-sitekey="6Lcqp2AUAAAAAEQLdXQtIlNDL6bidymAEPkP0HER"></div>
+                      </div>
+
+                      <button type="submit" name="new_us_submit" class="btn btn-primary btn-block">Create your account</button>
                     </form>
-                </div>
+
+
+
+
               </div>
-              </div>
+            </div>
+          </div>
 
 <?php
   include_once 'includes/footer.php';

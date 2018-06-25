@@ -10,7 +10,7 @@ session_start();
     //empty input
     if (empty($us_name) || empty($us_pass)) {
       $_SESSION['log_in_error'] = "Ooops! U forget to fill out all fields.";
-      header("Location: index.php");
+      header("Location: index.html");
       exit();
     } else {
       $sql = "SELECT * FROM users WHERE u_name='$us_name' OR u_email='$us_name'";
@@ -18,7 +18,7 @@ session_start();
       $resultCheck = mysqli_num_rows($result);
       if ($resultCheck < 1) {
         $_SESSION['log_in_error'] = "Ooops! Username or Password doesn't match.";
-        header("Location: index.php");
+        header("Location: index.html");
         exit();
       } else {
         if ($row = mysqli_fetch_assoc($result)) {
@@ -26,7 +26,7 @@ session_start();
           $dbpass = $row['u_pass'];
           if($dbpass != $_POST['us_pass']){
            $_SESSION['log_in_error'] = "Ooops! Username or Password doesn't match.";
-           header("Location: index.php");
+           header("Location: index.html");
            exit();
           } elseif ($dbpass == $_POST['us_pass']) {
             //LOGIN USER
@@ -39,13 +39,13 @@ session_start();
             $_SESSION['us_adress'] = $row['u_adress'];
             $_SESSION['us_birthday'] = $row['u_birthday'];
 
-            header("Location: panel.php");
+            header("Location: panel.html");
             exit();
           }
         }
       }
     }
   } else {
-  header("Location: index.php");
+  header("Location: index.html");
   exit();
 }
