@@ -1,6 +1,6 @@
 <?php
 session_start();
-//6Lcqp2AUAAAAAJKYQJCNxYMsYNIJfgTUvyASOQbd
+
 if (isset($_POST['new_us_submit'])) {
 
   include_once 'connect.php';
@@ -77,9 +77,46 @@ if (isset($_POST['new_us_submit'])) {
                         header('Location: sign_in.html');
                         exit();
                         } else {
-                          
-
-
+                        //connection check
+                          try {
+                            if($connect->connect_errno!=0) {
+                              throw new Exception(mysqli_connect_errno());
+                            } else {
+                              //comparing existing emails in database with provided email in registration form
+                              $sql= "SELECT * FROM users WHERE u_email = '$new_us_mail'";
+                              $result = mysqli_query($connect, $sql);
+                              $resultCheck = mysqli_num_rows($result);
+                              if($resultCheck > 0) {
+                                $_SESSION['sign_in_error'] = "Email adress already in use!";
+                                header('Location: sign_in.html');
+                                exit();
+                              } else {
+                                //comparing existing username in database with provided username in registration form
+                                $sql = "SELECT * FROM users WHERE u_username = '$new_us_username'";
+                                $result = mysqli_query($connect, $sql);
+                                $resultCheck = mysqli_num_rows($result);
+                                if($resultCheck > 0) {
+                                  $_SESSION['sign_in_error'] = "Username already in use!";
+                                  header('Location: sign_in.html');
+                                  exit();
+                                } else {
+                                  //password hashing
+                                  $hashedPwd = password_hash($new_us_pass, PASSWORD_DEFAULT);
+                                  //creating new user in database and inserting provided data
+                                  $sql = "INSERT INTO users (u_username, u_name, u_surname, u_status, u_email, u_pass, u_adress, u_birthday)
+                                          VALUES ('$new_us_username', '$new_us_name', '$new_us_surname', 'USER', '$new_us_mail' , '$hashedPwd', NULL, NULL)";
+                                  $result = mysqli_query($connect, $sql);
+                                  $_SESSION['sign_in_success'] = "New account created!";
+                                  header('Location: index.html');
+                                }
+                              }
+                              $connect->close();
+                              exit();
+                            }
+                          } catch (Exception $e) {
+                            echo "Blad serwer, przepraszamy za niedogodnienia!";
+                            echo '<br/>Informacja developerska: '.$e;
+                      }
                     }
                   }
                 }

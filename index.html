@@ -12,16 +12,25 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
     </button></div>';
     session_unset();
-    }
-    elseif (isset($_SESSION['log_out_success'] )) {
+  } else {
+    if (isset($_SESSION['log_out_success'])) {
       $log_out_success = $_SESSION['log_out_success'];
       echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'.$log_out_success.'
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
       </button></div>';
       session_unset();
-      session_destroy();
+    } else {
+      if (isset($_SESSION['sign_in_success'])) {
+        $sign_in_success = $_SESSION['sign_in_success'];
+        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'.$sign_in_success.'
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button></div>';
+        session_unset();
+        session_destroy();
+      }
     }
-  ?>
+  }
+?>
 </div>
 
 <!--FORM -->

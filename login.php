@@ -13,7 +13,7 @@ session_start();
       header("Location: index.html");
       exit();
     } else {
-      $sql = "SELECT * FROM users WHERE u_name='$us_name' OR u_email='$us_name'";
+      $sql = "SELECT * FROM users WHERE u_username='$us_name' OR u_email='$us_name'";
       $result = mysqli_query($connect, $sql);
       $resultCheck = mysqli_num_rows($result);
       if ($resultCheck < 1) {
@@ -23,12 +23,12 @@ session_start();
       } else {
         if ($row = mysqli_fetch_assoc($result)) {
           //CHECKING PASSWORD MATCHING
-          $dbpass = $row['u_pass'];
-          if($dbpass != $_POST['us_pass']){
+          $hashedPwdCheck = password_verify($us_pass, $row['u_pass']);
+          if($hashedPwdCheck == false ){
            $_SESSION['log_in_error'] = "Ooops! Username or Password doesn't match.";
            header("Location: index.html");
            exit();
-          } elseif ($dbpass == $_POST['us_pass']) {
+         } elseif ($hashedPwdCheck == true ) {
             //LOGIN USER
             $_SESSION['loged_in'] = true;
             $_SESSION['us_id'] = $row['u_id'];
