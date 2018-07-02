@@ -11,8 +11,17 @@ if (isset($_POST['new_us_submit'])) {
   $new_us_mail = mysqli_real_escape_string($connect, $_POST['new_us_mail']);
   $new_us_pass = mysqli_real_escape_string($connect, $_POST['new_us_pass']);
   $new_us_pass_re = mysqli_real_escape_string($connect, $_POST['new_us_pass_re']);
+  //hash key to verify account
+  $hash = mysqli_real_escape_string($connect, md5(rand(0, 1000)));
 
   //ERROR HANDLERS
+  // remember provided input fileds
+  $_SESSION['remInUser'] = $new_us_username;
+  $_SESSION['remInName'] = $new_us_name;
+  $_SESSION['remInSur'] = $new_us_surname;
+  $_SESSION['remInMail'] = $new_us_mail;
+  if(isset($_POST['check_accept'])) $_SESSION['remInCheck'] = true;
+
   //empty inputs
   if(empty($new_us_username) || empty($new_us_name) || empty($new_us_surname) || empty($new_us_mail) || empty($new_us_pass)) {
     $_SESSION['sign_in_error'] = "Empty fields left. All fields are required!";

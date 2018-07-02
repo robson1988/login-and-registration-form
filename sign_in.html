@@ -11,8 +11,6 @@
     echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'.$sign_in_error.'
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
     </button></div>';
-    session_unset();
-    session_destroy();
     }
   ?>
 </div>
@@ -24,16 +22,16 @@
                   <div class="sign_in_form">
                     <form action="register.php" method="POST">
                       <h2 class="header">Sign Up</h2>
-                      <input class="sign" type="text" name="new_us_username" placeholder="Username">
-                      <input class="sign" type="text" name="new_us_name" placeholder="Name">
-                      <input class="sign" type="text" name="new_us_surname" placeholder="Surname">
-                      <input class="sign" type="e-mail" name="new_us_mail" placeholder="Email">
+                      <input class="sign" type="text" name="new_us_username" placeholder="Username" value="<?php if(isset($_SESSION['remInUser'])) { echo $_SESSION['remInUser'];} ?>">
+                      <input class="sign" type="text" name="new_us_name" placeholder="Name" value="<?php if(isset($_SESSION['remInName'])) { echo $_SESSION['remInName'];} ?>">
+                      <input class="sign" type="text" name="new_us_surname" placeholder="Surname" value="<?php if(isset($_SESSION['remInSur'])) { echo $_SESSION['remInSur'];} ?>">
+                      <input class="sign" type="e-mail" name="new_us_mail" placeholder="Email" value="<?php if(isset($_SESSION['remInMail'])) { echo $_SESSION['remInMail'];} ?>">
                       <input class="sign" type="password" name="new_us_pass" placeholder="Password">
                       <input class="sign" type="password" name="new_us_pass_re" placeholder="Re-enter password">
 <!-- CHECKBOX-->
-                      <div class="checkbox_policy mt-3">
+                      <div class="checkbox mt-3">
                         <div class="input-group-text">
-                          <input type="checkbox" name="check_accept" aria-label="Checkbox for following text input">
+                          <input type="checkbox" name="check_accept" <?php if(isset($_SESSION['remInCheck'])) { echo "checked";} ?>>
                           <p class=" policy">Accept our policy</p>
                         </div>
                       </div>
@@ -54,4 +52,7 @@
 
 <?php
   include_once 'includes/footer.php';
+
+  session_unset();
+  session_destroy();
 ?>
