@@ -1,14 +1,15 @@
 <?php
   include_once 'includes/header.php';
 ?>
-
+<title> Create new account </title>
+</head>
 <body>
 <!-- SIGN IN MESSAGE BAR -->
 <div class="info_bar">
   <?php
-  if (isset($_SESSION['sign_in_error'] )) {
-    $sign_in_error = $_SESSION['sign_in_error'];
-    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'.$sign_in_error.'
+  if (isset($_SESSION['msg_error'] )) {
+    $msg_error = $_SESSION['msg_error'];
+    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'.$msg_error.'
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
     </button></div>';
     }

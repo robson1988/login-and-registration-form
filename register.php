@@ -24,57 +24,57 @@ if (isset($_POST['new_us_submit'])) {
 
   //empty inputs
   if(empty($new_us_username) || empty($new_us_name) || empty($new_us_surname) || empty($new_us_mail) || empty($new_us_pass)) {
-    $_SESSION['sign_in_error'] = "Empty fields left. All fields are required!";
-    header('Location: sign_in.html');
+    $_SESSION['msg_error'] = "Empty fields left. All fields are required!";
+    header('Location: signin.html');
     exit();
   }  else {
     //username length check
       if(strlen($new_us_username) < 5 || strlen($new_us_username) > 20) {
-        $_SESSION['sign_in_error'] = "Incorrrect username. Username must be at least 5 characters long and contain one number!";
-        header('Location: sign_in.html');
+        $_SESSION['msg_error'] = "Incorrrect username. Username must be at least 5 characters long and contain one number!";
+        header('Location: signin.html');
         exit();
         //username correct symbols check
         } else {
         if (!preg_match("/^[0-9a-zA-Z]*$/", $new_us_username)) {
-          $_SESSION['sign_in_error'] = "Unvalid symbols in username field!";
-          header('Location: sign_in.html');
+          $_SESSION['msg_error'] = "Unvalid symbols in username field!";
+          header('Location: signin.html');
           exit();
           } else {
           //username numbers contain check
           if (!preg_match("#[0-9]#", $new_us_username)) {
-            $_SESSION['sign_in_error'] = "Username mus't contain at least one number!";
-            header('Location: sign_in.html');
+            $_SESSION['msg_error'] = "Username mus't contain at least one number!";
+            header('Location: signin.html');
             exit();
             } else {
             //name and surname letters only check
             if(!preg_match("/^[a-zA-Z]*$/", $new_us_name) || !preg_match("/^[a-zA-Z]*$/", $new_us_surname)) {
-              $_SESSION['sign_in_error'] = "Unvalid symbols. Name and surname must contain only letters!";
-              header('Location: sign_in.html');
+              $_SESSION['msg_error'] = "Unvalid symbols. Name and surname must contain only letters!";
+              header('Location: signin.html');
               exit();
               } else {
               //email validate and sanitize check
               $new_us_mailCheck = filter_var($new_us_mail, FILTER_SANITIZE_EMAIL);
               if(filter_var($new_us_mailCheck, FILTER_VALIDATE_EMAIL) == false || ($new_us_mail!=$new_us_mailCheck)) {
-                $_SESSION['sign_in_error'] = "Invalid e-mail adress!";
-                header('Location: sign_in.html');
+                $_SESSION['msg_error'] = "Invalid e-mail adress!";
+                header('Location: signin.html');
                 exit();
                 } else {
                 // password lenght check
                 if(strlen($new_us_pass) < 6) {
-                  $_SESSION['sign_in_error'] = "Password should be at least 6 characters long!";
-                  header('Location: sign_in.html');
+                  $_SESSION['msg_error'] = "Password should be at least 6 characters long!";
+                  header('Location: signin.html');
                   exit();
                   } else {
                   //passwords match check
                   if(($new_us_pass)!=($new_us_pass_re)) {
-                    $_SESSION['sign_in_error'] = "Passwords doesn't match!";
-                    header('Location: sign_in.html');
+                    $_SESSION['msg_error'] = "Passwords doesn't match!";
+                    header('Location: signin.html');
                     exit();
                     } else {
                     //checkbox checked
                     if(!isset($_POST['check_accept'])) {
-                      $_SESSION['sign_in_error'] = "To register you have to accept our policy!";
-                      header('Location: sign_in.html');
+                      $_SESSION['msg_error'] = "To register you have to accept our policy!";
+                      header('Location: signin.html');
                       exit();
                       } else {
                       //captcha check
@@ -82,8 +82,8 @@ if (isset($_POST['new_us_submit'])) {
                       $captchaCheck = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']);
                       $validate = json_decode($captchaCheck);
                       if($validate->success == false) {
-                        $_SESSION['sign_in_error'] = "Captcha required!";
-                        header('Location: sign_in.html');
+                        $_SESSION['msg_error'] = "Captcha required!";
+                        header('Location: signin.html');
                         exit();
                         } else {
                         //connection check
@@ -96,8 +96,8 @@ if (isset($_POST['new_us_submit'])) {
                               $result = mysqli_query($connect, $sql);
                               $resultCheck = mysqli_num_rows($result);
                               if($resultCheck > 0) {
-                                $_SESSION['sign_in_error'] = "Email adress already in use!";
-                                header('Location: sign_in.html');
+                                $_SESSION['msg_error'] = "Email adress already in use!";
+                                header('Location: signin.html');
                                 exit();
                               } else {
                                 //comparing existing username in database with provided username in registration form
@@ -105,8 +105,8 @@ if (isset($_POST['new_us_submit'])) {
                                 $result = mysqli_query($connect, $sql);
                                 $resultCheck = mysqli_num_rows($result);
                                 if($resultCheck > 0) {
-                                  $_SESSION['sign_in_error'] = "Username already in use!";
-                                  header('Location: sign_in.html');
+                                  $_SESSION['msg_error'] = "Username already in use!";
+                                  header('Location: signin.html');
                                   exit();
                                 } else {
                                   //password hashing
@@ -115,7 +115,7 @@ if (isset($_POST['new_us_submit'])) {
                                   $sql = "INSERT INTO users (u_username, u_name, u_surname, u_status, u_email, u_pass, u_adress, u_birthday)
                                           VALUES ('$new_us_username', '$new_us_name', '$new_us_surname', 'USER', '$new_us_mail' , '$hashedPwd', NULL, NULL)";
                                   $result = mysqli_query($connect, $sql);
-                                  $_SESSION['sign_in_success'] = "New account created!";
+                                  $_SESSION['msg_success'] = "New account created!";
                                   header('Location: index.html');
                                 }
                               }

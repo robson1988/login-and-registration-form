@@ -5,7 +5,7 @@ session_start();
     header("Location: index.html");
     exit();
   } else {
-    $_SESSION['log_out_success'] = "Log out successful!";
+    $_SESSION['msg_success'] = "Log out successful!";
     header("Location: index.html");
     exit();
   }

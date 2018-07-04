@@ -9,7 +9,7 @@ session_start();
     //error handlers
     //empty input
     if (empty($us_name) || empty($us_pass)) {
-      $_SESSION['log_in_error'] = "Ooops! U forget to fill out all fields.";
+      $_SESSION['msg_error'] = "Ooops! U forget to fill out all fields.";
       header("Location: index.html");
       exit();
     } else {
@@ -17,7 +17,7 @@ session_start();
       $result = mysqli_query($connect, $sql);
       $resultCheck = mysqli_num_rows($result);
       if ($resultCheck < 1) {
-        $_SESSION['log_in_error'] = "Ooops! Username or Password doesn't match.";
+        $_SESSION['msg_error'] = "Ooops! Username or Password doesn't match.";
         header("Location: index.html");
         exit();
       } else {
@@ -25,7 +25,7 @@ session_start();
           //CHECKING PASSWORD MATCHING
           $hashedPwdCheck = password_verify($us_pass, $row['u_pass']);
           if($hashedPwdCheck == false ){
-           $_SESSION['log_in_error'] = "Ooops! Username or Password doesn't match.";
+           $_SESSION['msg_error'] = "Ooops! Username or Password doesn't match.";
            header("Location: index.html");
            exit();
          } elseif ($hashedPwdCheck == true ) {
