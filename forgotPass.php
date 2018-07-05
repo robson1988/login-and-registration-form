@@ -3,13 +3,51 @@
 ?>
 <title> Forgot Password </title>
 </head>
+<?php
+include_once 'connect.php';
+// check if data is sent by post method
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $us_mail = mysqli_real_escape_string($connect, $_POST['us_mail']);
+  $sql = "SELECT * FROM users WHERE u_email ='$us_mail'";
+  $result = mysqli_query($connect, $sql);
+  $resultCheck = mysqli_num_rows($result);
+  //user doesn't exist
+  if($resultCheck == 0) {
+    $_SESSION['msg_error'] = "User with that email doesn't exist!";
+    header('Location: index.html');
+    exit();
+  } else { //user exist, fetch user data from database to array
+      $user = $result->fetch_assoc();
+      $email=$user['u_email'];
+      $hash=$user['u_hash'];
+      $name=$user['u_name'];
+
+      //session msg to display on success.php
+      $_SESSION['msg_success'] = "<p>Please check your email <span>$email</span>"
+      . " for a confirmation link to complete your password reset!</p>";
+
+      //send reset link reset.php
+
+      $to = $email;
+      $subject = 'Password reset link.';
+      $message_body = 'Hello'.$name.',
+      You have requested password reset!
+      Please click this link to reset your password:
+      http://localhost/GITHUB-LOGIN AND REGISTRATION FORM VERSION 1.0/reset.php?email='.$email.'&hash='.$hash;
+      mail($to, $subject, $message_body);
+      header('Location: index.html ');
+      exit();
+  }
+}
+
+?>
 <body>
   <div class="reset d-flex ">
     <div class="row">
       <div class="sign_in_form">
         <form action="forgotPass.php" method="POST">
           <h2 class="header">Reset your Password</h2>
-          <input class="sign" type="text" name="us_name" placeholder="Email Adress" required>
+          <input class="sign" type="text" name="us_mail" placeholder="Email Adress" required>
           <button type="submit" name="us_submit" class="btn btn-primary btn-block">Reset</button>
         </form>
       </div>
