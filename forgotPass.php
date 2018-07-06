@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   } else { //user exist, fetch user data from database to array
       $user = $result->fetch_assoc();
       $email=$user['u_email'];
-      $hash=$user['u_hash'];
+    //  $hash=$user['u_hash']; .'&hash='.$hash
       $name=$user['u_name'];
 
       //session msg to display on success.php
@@ -30,11 +30,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       $to = $email;
       $subject = 'Password reset link.';
-      $message_body = 'Hello'.$name.',
+      $message = 'Hello'.$name.',
       You have requested password reset!
       Please click this link to reset your password:
-      http://localhost/GITHUB-LOGIN AND REGISTRATION FORM VERSION 1.0/reset.php?email='.$email.'&hash='.$hash;
-      mail($to, $subject, $message_body);
+      http://localhost/GITHUB-LOGIN AND REGISTRATION FORM VERSION 1.0/reset.php?email='.$email;
+      mail($to, $subject, $message);
       header('Location: index.html ');
       exit();
   }
