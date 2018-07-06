@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $message = 'Hello'.$name.',
       You have requested password reset!
       Please click this link to reset your password:
-      http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM_VERSION_1.0/resetPass.php?email='.$email;
+      http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM/resetPass.php?email='.$email;
       mail($to, $subject, $message);
 
       header('Location: index.html ');
