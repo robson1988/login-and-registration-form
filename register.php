@@ -112,8 +112,8 @@ if (isset($_POST['new_us_submit'])) {
                                   //password hashing
                                   $hashedPwd = password_hash($new_us_pass, PASSWORD_DEFAULT);
                                   //creating new user in database and inserting provided data
-                                  $sql = "INSERT INTO users (u_username, u_name, u_surname, u_status, u_email, u_pass, u_adress, u_birthday)
-                                          VALUES ('$new_us_username', '$new_us_name', '$new_us_surname', 'USER', '$new_us_mail' , '$hashedPwd', NULL, NULL)";
+                                  $sql = "INSERT INTO users (u_username, u_name, u_surname, u_status, u_email, u_pass, u_hash, u_adress, u_birthday)
+                                          VALUES ('$new_us_username', '$new_us_name', '$new_us_surname', 'USER', '$new_us_mail' , '$hashedPwd', '$hash', NULL, NULL)";
                                   $result = mysqli_query($connect, $sql);
                                   $_SESSION['msg_success'] = "New account created!";
                                   header('Location: index.html');

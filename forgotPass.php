@@ -16,28 +16,33 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['msg_error'] = "User with that email doesn't exist!";
     header('Location: index.html');
     exit();
-  } else { //user exist, fetch user data from database to array
+  } else {
+      //user exist, fetch user data from database to array
       $user = $result->fetch_assoc();
       $email=$user['u_email'];
-    //  $hash=$user['u_hash']; .'&hash='.$hash
+      $hash=$user['u_hash'];
       $name=$user['u_name'];
-
+      $username=$user['u_username'];
+      //timezone and request time set
+      date_default_timezone_set('Europe/London');
+      $time = date('y.m.d h:i:s');
+      //insert into db time and token
+      $sql = "INSERT INTO passres (u_username, u_token, u_resetTime) VALUES ('$username','$hash', '$time')";
+      mysqli_query($connect, $sql);
       //session msg to display on success.php
       $_SESSION['msg_success'] = "<p>Please check your email <span>$email</span>"
       . " for a confirmation link to complete your password reset!</p>";
 
       //send reset link reset.php
-
       $to = $email;
       $subject = 'Password reset link.';
       $message = 'Hello'.$name.',
       You have requested password reset!
       Please click this link to reset your password:
-      http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM/resetPass.php?email='.$email;
+      http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM/resetPass.php?email='.$email.'&hash='.$hash;
       mail($to, $subject, $message);
+      header('Location: index.html');
 
-      header('Location: index.html ');
-      exit();
   }
 }
 
