@@ -19,16 +19,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   } else {
       //user exist, fetch user data from database to array
       $user = $result->fetch_assoc();
+      $id=$user['u_id'];
+      $username=$user['u_username'];
       $email=$user['u_email'];
       $hash=$user['u_hash'];
-      $name=$user['u_name'];
-      $username=$user['u_username'];
-      //timezone and request time set
-      date_default_timezone_set('Europe/London');
-      $time = date('y.m.d h:i:s');
+
+      //generate password reset token
+      $salt = rand(0,999);
+      $date = date_create();
+      $token = hash("sha256", date_timestamp_get($date).$salt);
+      $time = date_timestamp_get($date);
+
       //insert into db time and token
-      $sql = "INSERT INTO passres (u_username, u_token, u_resetTime) VALUES ('$username','$hash', '$time')";
+      $sql = "INSERT INTO passres (u_id, u_username, u_token, u_resetTime) VALUES ('$id', '$username','$token', '$time')";
       mysqli_query($connect, $sql);
+
       //session msg to display on success.php
       $_SESSION['msg_success'] = "<p>Please check your email <span>$email</span>"
       . " for a confirmation link to complete your password reset!</p>";
@@ -36,10 +41,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       //send reset link reset.php
       $to = $email;
       $subject = 'Password reset link.';
-      $message = 'Hello'.$name.',
+      $message = 'Hello'. $username.',
       You have requested password reset!
       Please click this link to reset your password:
-      http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM/resetPass.php?email='.$email.'&hash='.$hash;
+      http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM/resetPass.php?username='.$username.'&hash='.$hash.'&token='.$token;
       mail($to, $subject, $message);
       header('Location: index.html');
 

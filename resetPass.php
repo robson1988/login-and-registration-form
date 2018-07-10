@@ -6,24 +6,41 @@
 <?php
 include_once 'connect.php';
 //check for valid data from URL
-if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !empty($_GET['hash'])) {
+if(isset($_GET['username']) && !empty($_GET['username']) AND isset($_GET['hash']) && !empty($_GET['hash']) AND isset($_GET['token']) && !empty($_GET['token'])) {
 
-  $email = mysqli_real_escape_string($connect, $_GET['email']);
+  $username = mysqli_real_escape_string($connect, $_GET['username']);
   $hash = mysqli_real_escape_string($connect, $_GET['hash']);
-  //check for existing user data
-  $sql = "SELECT * FROM users WHERE u_email='$email' AND u_hash='$hash'";
+  $token = mysqli_real_escape_string($connect, $_GET['token']);
+
+        //check if token is still valid
+        $sql = "SELECT * FROM passres WHERE u_token='$token'";
+        $result = mysqli_query($connect, $sql);
+        $dbTimestamp = $result->fetch_assoc();
+
+        $resetTime = $dbTimestamp['u_resetTime'];
+        $date = date_create();
+        $currenTime = date_timestamp_get($date);
+        if ($currenTime - $resetTime > 3600) {
+        echo $_SESSION['msg_error'] = "Sorry, reset link already expired. Please try again.";
+        header('Location: index.html');
+        exit();
+        } else {
+  //check for existing user data and compare it with token given
+  $sql = "SELECT users.u_username = '$username', users.u_hash = '$hash' FROM users, passres WHERE passres.u_token ='$token' AND users.u_id= passres.u_id";
   $result = mysqli_query($connect, $sql);
   $resultCheck = mysqli_num_rows($result);
   if($resultCheck == 0) {
-    $_SESSION['msg_error'] = "Sorry, verification failed1. Please try again later.";
+    $_SESSION['msg_error'] = "Sorry, verification failed. Please try again later.";
     header('Location: index.html');
     exit();
+      }
     }
-      } else {
+  } else {
       $_SESSION['msg_error'] = "Sorry, verification failed. Please try again later.";
       header('Location: index.html');
       exit();
-      }
+}
+
 ?>
 <body>
   <div class="reset d-flex ">
