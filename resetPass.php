@@ -46,7 +46,7 @@ if(isset($_GET['username']) && !empty($_GET['username']) AND isset($_GET['hash']
   <div class="reset d-flex ">
     <div class="row">
       <div class="sign_in_form">
-        <form action="" method="POST">
+        <form action="reset.php" method="POST">
           <h2 class="header">Reset your Password</h2>
           <input class="sign" type="password" name="newPass" placeholder="New Password" required>
           <input class="sign" type="password" name="newPassCon" placeholder="Confirm New Password" required>
