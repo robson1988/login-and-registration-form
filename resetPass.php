@@ -16,12 +16,17 @@ if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['hash'])
   //check if token is still valid
   $sql = "SELECT * FROM passres WHERE u_token='$token'";
   $result = mysqli_query($connect, $sql);
-  $dbTimestamp = $result->fetch_assoc();
-  $resetTime = $dbTimestamp['u_resetTime'];
-  $date = date_create();
+  $fetchResult = $result->fetch_assoc();
+
+  $userid = $fetchResult['u_id'];  //get user id from data base
+  $resetTime = $fetchResult['u_resetTime']; // get timestamp grom database
+
+  $date = date_create();  // create timestamp for date
   $currentTime = date_timestamp_get($date);
+  $actionDate = date('Y-m-d H:i:s', $currentTime);  //set date to insert into database
 
   if ($currentTime - $resetTime > 3600) {
+    $_SESSION['msg_error'] = "Sorry, reset link already expired.";
     header('Location: index.html');
     exit();
       } else {
@@ -49,8 +54,12 @@ if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['hash'])
           <h2 class="header">Reset your Password</h2>
           <input class="sign" type="password" name="newPass" placeholder="New Password">
           <input class="sign" type="password" name="newPassConfirm" placeholder="Confirm New Password">
+          <input type="hidden" name="us_id" value="<?php echo $userid; ?>">
           <input type="hidden" name="us_username" value="<?php echo $username; ?>">
           <input type="hidden" name="us_hash" value="<?php echo $hash; ?>">
+          <input type="hidden" name="us_date" value="<?php echo $actionDate; ?>">
+
+
           <button type="submit" name="us_submit" class="btn btn-primary btn-block">Apply</button>
         </form>
       </div>

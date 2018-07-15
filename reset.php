@@ -1,6 +1,7 @@
 <?php
 //ykg
 include_once 'connect.php';
+//include_once 'includes/dbAction.php';
 session_start();
 
 if(!isset($_POST['us_submit'])) {
@@ -8,27 +9,49 @@ if(!isset($_POST['us_submit'])) {
   exit();
 
 } else {
-
+print_r($_POST);
   if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       if($_POST['newPass'] == $_POST['newPassConfirm']) {
 
-        $newPass = password_hash($_POST['newPass'], PASSWORD_DEFAULT);
+        if(strlen($_POST['newPass']) < 6) {
 
-        $username = mysqli_real_escape_string($connect, $_POST['us_username']);
-        $hash = mysqli_real_escape_string($connect, $_POST['us_hash']);
+          $_SESSION['msg_error'] = "To short password, 6 characters minimum! PLease try again.";
+          header('Location: index.html');
+          exit();
+          } else {
+          $newPass = password_hash($_POST['newPass'], PASSWORD_DEFAULT);
 
-        $sql = "UPDATE users SET u_pass='$newPass' WHERE u_username='$username' AND u_hash='$hash'";
-        mysqli_query($connect, $sql);
+          $userid = mysqli_real_escape_string($connect, $_POST['us_id']);
+          $username = mysqli_real_escape_string($connect, $_POST['us_username']);
+          $hash = mysqli_real_escape_string($connect, $_POST['us_hash']);
+          $action = "Password Reset"; //action taken to db records
+          $date = mysqli_real_escape_string($connect, $_POST['us_date']);
 
-        $_SESSION['msg_success'] = "Your password has been updated.";
-        header('Location: index.html');
-        exit();
+          //UPDATE PASSWORD IN DATABASE
+          $sql = "UPDATE users SET u_pass='$newPass' WHERE u_username='$username' AND u_hash='$hash'";
 
-      } else {
-        $_SESSION['msg_error'] = "Sorry, passwords does't match. Please try again.";
-        header('Location: index.html');
-        exit();
+          mysqli_query($connect, $sql);
+
+          //INSERT ACTION TAKEN BY USER FOR DATABSE RECORDS
+          $dataInsert = "INSERT INTO dbaction (u_id, u_username, u_action, action_date)
+                         VALUES ('$userid', '$username', '$action', '$date')";
+
+          mysqli_query($connect, $dataInsert);
+
+          //DALETE TEPORARY DATA FROM TABLE AFTER COMPLETED ACTION
+          $dataDelete = "DELETE FROM passres WHERE u_id='$userid' AND u_username='$username'";
+
+          mysqli_query($connect, $dataDelete);
+
+          $_SESSION['msg_success'] = "Your password has been updated.";
+          header('Location: index.html');
+          exit();
+          }
       }
-  }
+  } else {
+  $_SESSION['msg_error'] = "Sorry, passwords does't match. Please try again.";
+  header('Location: index.html');
+  exit();
+}
 }
