@@ -14,7 +14,7 @@ print_r($_POST);
 
     $newPass = mysqli_real_escape_string($connect, $_POST['newPass']);
     $newPassConfirm = mysqli_real_escape_string($connect, $_POST['newPassConfirm']);
-      if($newPass == $newPassConfirm {
+      if($newPass == $newPassConfirm) {
 
         if(strlen($newPass) < 6) {
 
