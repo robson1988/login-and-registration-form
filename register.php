@@ -15,7 +15,7 @@ if (isset($_POST['new_us_submit'])) {
   $hash = mysqli_real_escape_string($connect, md5(rand(0, 1000)));
 
   //ERROR HANDLERS
-  // remember provided input fileds
+  // remember provided input fields
   $_SESSION['remInUser'] = $new_us_username;
   $_SESSION['remInName'] = $new_us_name;
   $_SESSION['remInSur'] = $new_us_surname;
@@ -112,10 +112,20 @@ if (isset($_POST['new_us_submit'])) {
                                   //password hashing
                                   $hashedPwd = password_hash($new_us_pass, PASSWORD_DEFAULT);
                                   //creating new user in database and inserting provided data
-                                  $sql = "INSERT INTO users (u_username, u_name, u_surname, u_status, u_email, u_pass, u_hash, u_adress, u_birthday)
-                                          VALUES ('$new_us_username', '$new_us_name', '$new_us_surname', 'USER', '$new_us_mail' , '$hashedPwd', '$hash', NULL, NULL)";
+                                  $sql = "INSERT INTO users (u_username, u_name, u_surname, u_status, u_email, u_pass, u_hash, active)
+                                          VALUES ('$new_us_username', '$new_us_name', '$new_us_surname', 'USER', '$new_us_mail' , '$hashedPwd', '$hash', '0')";
                                   $result = mysqli_query($connect, $sql);
-                                  $_SESSION['msg_success'] = "New account created!";
+
+                                  //send activation link userVer.php
+                                  $to = $new_us_mail;
+                                  $subject = 'Account verification link.';
+                                  $message = 'Hello '.$new_us_username.',
+                                  Welcome in our store.
+                                  Please click this link to activate your account:
+                                  http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM/userVer.php?username='.$new_us_username.'&hash='.$hash;
+                                  mail($to, $subject, $message);
+
+                                  $_SESSION['msg_success'] = "New account created! Please check your email $new_us_mail for verification link.";
                                   header('Location: index.html');
                                 }
                               }

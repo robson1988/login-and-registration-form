@@ -35,13 +35,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       mysqli_query($connect, $sql);
 
       //session msg to display on success.php
-      $_SESSION['msg_success'] = "<p>Please check your email <span>$email</span>"
-      . " for a confirmation link to complete your password reset!</p>";
+      $_SESSION['msg_success'] = "<p>Please check your email $email
+       for a confirmation link to complete your password reset!</p>";
 
       //send reset link reset.php
       $to = $email;
       $subject = 'Password reset link.';
-      $message = 'Hello'. $username.',
+      $message = 'Hello '.$username.',
       You have requested password reset!
       Please click this link to reset your password:
       http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM/resetPass.php?username='.$username.'&hash='.$hash.'&token='.$token;

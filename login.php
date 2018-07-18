@@ -22,6 +22,12 @@ session_start();
         exit();
       } else {
         if ($row = mysqli_fetch_assoc($result)) {
+          $active = $row['active'];
+          if($active == 0) {
+            $_SESSION['msg_error'] = "Account not activated. Please activate before you log in.";
+            header("Location: index.html");
+            exit();
+          } else {
           //CHECKING PASSWORD MATCHING
           $hashedPwdCheck = password_verify($us_pass, $row['u_pass']);
           if($hashedPwdCheck == false ){
@@ -41,6 +47,7 @@ session_start();
 
             header("Location: panel.html");
             exit();
+            }
           }
         }
       }

@@ -12,15 +12,17 @@ if(!isset($_POST['us_submit'])) {
 print_r($_POST);
   if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-      if($_POST['newPass'] == $_POST['newPassConfirm']) {
+    $newPass = mysqli_real_escape_string($connect, $_POST['newPass']);
+    $newPassConfirm = mysqli_real_escape_string($connect, $_POST['newPassConfirm']);
+      if($newPass == $newPassConfirm {
 
-        if(strlen($_POST['newPass']) < 6) {
+        if(strlen($newPass) < 6) {
 
           $_SESSION['msg_error'] = "To short password, 6 characters minimum! PLease try again.";
           header('Location: index.html');
           exit();
           } else {
-          $newPass = password_hash($_POST['newPass'], PASSWORD_DEFAULT);
+          $password = password_hash($newPass, PASSWORD_DEFAULT);
 
           $userid = mysqli_real_escape_string($connect, $_POST['us_id']);
           $username = mysqli_real_escape_string($connect, $_POST['us_username']);
@@ -29,7 +31,7 @@ print_r($_POST);
           $date = mysqli_real_escape_string($connect, $_POST['us_date']);
 
           //UPDATE PASSWORD IN DATABASE
-          $sql = "UPDATE users SET u_pass='$newPass' WHERE u_username='$username' AND u_hash='$hash'";
+          $sql = "UPDATE users SET u_pass='$password' WHERE u_username='$username' AND u_hash='$hash'";
 
           mysqli_query($connect, $sql);
 
