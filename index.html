@@ -4,7 +4,9 @@
 <title> Log in </title>
 
 </head>
-<body>
+<body class="dark">
+
+<!-- LOG IN/OUT MESSAGE BAR-->
 <?php
 if (isset($_SESSION['msg_success'])) {
   $msg_success = $_SESSION['msg_success'];
@@ -13,48 +15,32 @@ if (isset($_SESSION['msg_success'])) {
   </button></div>';
   session_unset();
   session_destroy();
+} else {
+  if (isset($_SESSION['msg_error'] )) {
+    $msg_error = $_SESSION['msg_error'];
+    echo '<div class="alert alert-danger alert-dismissible fade in show " id="dialog-message" role="alert">'.$msg_error.'
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+    </button></div>';
+    session_unset();
+    session_destroy();
+  }
 }
 ?>
 
-<!-- MODAL BUTTON -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalCenter" data-backdrop="static" data-keyboard="false">
-  Sign In
-</button>
+<!--FORM -->
+          <div class="container log_in_section d-flex ">
+            <div class="row">
 
-<!-- MODAL WINDOW -->
-<div class="modal hide fade"  id="ModalCenter" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" >SIGN IN</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+<!--LOG IN SECTION-->
+            <div class="sign_in_form">
+              <form action="login.php" method="POST">
+                <h2 class="header">sign in</h2>
+                <input class="sign" type="text" name="us_name" placeholder="Username or email">
+                <input class="sign" type="password" name="us_pass" placeholder="Password">
+                <div class="text-right fLink" ><a href="forgotPass.php">Forgot your password?</a></div>
 
-        <!---SIGN IN SECTION-->
-          <form action="login.php" method="POST" id="form" >
-            <input class="sign" type="text" name="us_name" placeholder="Username or email">
-            <input class="sign" type="password" name="us_pass" placeholder="Password">
-            <div class="text-right fLink" ><a href="forgotPass.php">Forgot your password?</a></div>
-
-
-            <!-- LOG IN/OUT MESSAGE BAR-->
-            <div class="respond">
-              <?php
-              if (isset($_SESSION['msg_error'] )) {
-                $msg_error = $_SESSION['msg_error'];
-                echo '<div class="alert alert-danger alert-dismissible fade in show " id="dialog-message" role="alert">'.$msg_error.'
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button></div>';
-                session_unset();
-                session_destroy();
-              }
-            ?>
-          </div>
-            <button id="buton" type="submit" name="us_submit" class="btn btn-primary btn-block btn_submit">Submit</button>
-          </form>
+                <button id="buton" type="submit" name="us_submit" class="btn btn-primary btn-block btn_submit">Submit</button>
+              </form>
 
         <!--REGISTER SECTION-->
          <div class="divider text-center mt-2 mb-1">
@@ -64,10 +50,8 @@ if (isset($_SESSION['msg_success'])) {
         </div>
     </div>
   </div>
-</div>
-<script>
 
-</script>
+
 <?php
   include_once 'includes/footer.php';
 ?>

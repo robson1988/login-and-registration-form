@@ -6,5 +6,6 @@ Form include:<br>
 - reset forgot password option by generated link sended by email,<br>
 - register form to create new user and activate user by generated link sended by email,<br>
 - form is conecting to mysql databse and inserting, updating, deleting records<br>
+- captcha validate to prevent spam.
 - frontend handled by Twitter Bootstrap.<br>
 </p>  

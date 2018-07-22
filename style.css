@@ -1,7 +1,7 @@
 .dark {background: rgb(37, 37, 42, 0.6);}
 .alert {margin-top: 1rem;}
-/*.alert-danger {color:#000;}
-.log_in_section {width:300px; height:300px;position:absolute;top:calc(50% - 150px); left:calc(50% - 200px);}*/
+.alert-danger {color:#000;}
+.log_in_section {width:400px; height:300px;position:absolute;top:calc(50% - 150px); left:calc(50% - 200px);}
 .sign_in_section {width:400px; height:450px;position:absolute;top:calc(50% - 225px); left:calc(50% - 200px);}
 .sign_in_form {background-color: #fff;border: 1px solid #D2DDCD; border-radius: 0.3rem; padding:1rem;}
 .header {text-transform: uppercase; padding-top: .5rem;}
@@ -16,8 +16,6 @@
 .input-group-text p {margin:0;}
 .input-group-text {background-color: transparent; border:none;}
 .captcha {align-content: center;}
-
-
 
 .reset {position:absolute; top:calc(50% - 100px); left:calc(50% - 194px); height:200px;}
 .reset .btn {margin-top: 1rem;}
