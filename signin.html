@@ -3,25 +3,14 @@
 ?>
 <title> Create new account </title>
 </head>
-<body>
-<!-- SIGN IN MESSAGE BAR -->
-<div class="info_bar">
-  <?php
-  if (isset($_SESSION['msg_error'] )) {
-    $msg_error = $_SESSION['msg_error'];
-    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'.$msg_error.'
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
-    </button></div>';
-    }
-  ?>
-</div>
-
+<body class="dark">
 <!--FORM -->
           <div class="container sign_in_section d-flex">
             <div class="row">
 <!--SIGN IN FORM-->
                   <div class="sign_in_form">
                     <form action="register.php" method="POST">
+
                       <h2 class="header">Sign Up</h2>
                       <input class="sign" type="text" name="new_us_username" placeholder="Username" value="<?php if(isset($_SESSION['remInUser'])) { echo $_SESSION['remInUser'];} ?>">
                       <input class="sign" type="text" name="new_us_name" placeholder="Name" value="<?php if(isset($_SESSION['remInName'])) { echo $_SESSION['remInName'];} ?>">
@@ -40,7 +29,17 @@
                       <div class="captcha mt-2">
                         <div class="g-recaptcha" data-sitekey="6Lcqp2AUAAAAAEQLdXQtIlNDL6bidymAEPkP0HER"></div>
                       </div>
-
+<!-- SIGN IN MESSAGE BAR -->
+                      <div class="result">
+                      <?php
+                      if (isset($_SESSION['msg_error'] )) {
+                        $msg_error = $_SESSION['msg_error'];
+                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'.$msg_error.'
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                        </button></div>';
+                        }
+                      ?>
+                    </div>
                       <button type="submit" name="new_us_submit" class="btn btn-primary btn-block">Create your account</button>
                     </form>
 
@@ -53,7 +52,4 @@
 
 <?php
   include_once 'includes/footer.php';
-
-  session_unset();
-  session_destroy();
 ?>

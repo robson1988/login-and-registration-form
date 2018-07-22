@@ -3,6 +3,7 @@
 ?>
 <title> Forgot Password </title>
 </head>
+<body class="dark">
 <?php
 include_once 'connect.php';
 // check if data is sent by post method
@@ -52,7 +53,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 ?>
-<body>
+
   <div class="reset d-flex ">
     <div class="row">
       <div class="sign_in_form">
