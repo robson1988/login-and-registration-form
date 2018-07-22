@@ -5,5 +5,6 @@ Form include:<br>
 - hashing passwords,<br>
 - reset forgot password option by generated link sended to user by email,<br>
 - register form to create new user and activate user by generated link sended to user by email,<br>
-- form is conecting to mySql databse and inserting, updating, deleting records,<br>
+- form is conecting to mysql databse and inserting, updating, deleting records<br>
+- frontend handled by Twitter Bootstrap.<br>
 </p>  
