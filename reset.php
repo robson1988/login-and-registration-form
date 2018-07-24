@@ -3,8 +3,8 @@
 include_once 'connect.php';
 //include_once 'includes/dbAction.php';
 session_start();
-print_r($_POST);
-/*
+
+
 if(!isset($_POST['us_submit'])) {
   header('Location: index.html');
   exit();
@@ -57,4 +57,4 @@ print_r($_POST);
   header('Location: index.html');
   exit();
 }
-}*/
+}
