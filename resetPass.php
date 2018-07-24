@@ -13,19 +13,27 @@ if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['hash'])
   $hash = mysqli_real_escape_string($connect, $_GET['hash']);
   $token = mysqli_real_escape_string($connect, $_GET['token']);
 
+  $_SESSION['hash'] = $hash;          //store data from GET METHOD in session variable
+  $_SESSION['username'] = $username;  //store data from GET METHOD in session variable
+
   //check if token is still valid
   $sql = "SELECT * FROM passres WHERE u_token='$token'";
   $result = mysqli_query($connect, $sql);
   $fetchResult = $result->fetch_assoc();
 
-  $userid = $fetchResult['u_id'];  //get user id from data base
-  $resetTime = $fetchResult['u_resetTime']; // get timestamp grom database
+  $_SESSION['userid'] = $fetchResult['u_id'];  //get user id from data base and store it in session
+  $_SESSION['resetTime'] = $fetchResult['u_resetTime']; // get timestamp grom database and store it in session
 
   $date = date_create();  // create timestamp for date
   $currentTime = date_timestamp_get($date);
   $actionDate = date('Y-m-d H:i:s', $currentTime);  //set date to insert into database
+  $_SESSION['actionDate'] = $actionDate;            //store date as a session variable
 
-  if ($currentTime - $resetTime > 3600) {
+  if ($currentTime - $_SESSION['resetTime'] > 3600) {
+
+    $sql = "DELETE FROM passres WHERE u_token='$token' AND u_username='$username'"; //dalete token from database if is no longer valid
+    mysqli_query($connect, $sql);
+    
     $_SESSION['msg_error'] = "Sorry, reset link already expired.";
     header('Location: index.html');
     exit();
@@ -54,12 +62,6 @@ if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['hash'])
           <h2 class="header">Reset your Password</h2>
           <input class="sign" type="password" name="newPass" placeholder="New Password">
           <input class="sign" type="password" name="newPassConfirm" placeholder="Confirm New Password">
-          <input type="hidden" name="us_id" value="<?php echo $userid; ?>">
-          <input type="hidden" name="us_username" value="<?php echo $username; ?>">
-          <input type="hidden" name="us_hash" value="<?php echo $hash; ?>">
-          <input type="hidden" name="us_date" value="<?php echo $actionDate; ?>">
-
-
           <button type="submit" name="us_submit" class="btn btn-primary btn-block">Apply</button>
         </form>
       </div>

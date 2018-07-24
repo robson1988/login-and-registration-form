@@ -10,7 +10,6 @@ if(!isset($_POST['us_submit'])) {
   exit();
 
 } else {
-print_r($_POST);
   if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $newPass = mysqli_real_escape_string($connect, $_POST['newPass']);
@@ -25,11 +24,11 @@ print_r($_POST);
           } else {
           $password = password_hash($newPass, PASSWORD_DEFAULT);
 
-          $userid = mysqli_real_escape_string($connect, $_POST['us_id']);
-          $username = mysqli_real_escape_string($connect, $_POST['us_username']);
-          $hash = mysqli_real_escape_string($connect, $_POST['us_hash']);
+          $userid = $_SESSION['userid'];
+          $username = $_SESSION['username'];
+          $hash = $_SESSION['hash'];
           $action = "Password Reset"; //action taken to db records
-          $date = mysqli_real_escape_string($connect, $_POST['us_date']);
+          $date = $_SESSION['actionDate'];
 
           //UPDATE PASSWORD IN DATABASE
           $sql = "UPDATE users SET u_pass='$password' WHERE u_username='$username' AND u_hash='$hash'";
