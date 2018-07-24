@@ -8,4 +8,8 @@ Form include:<br>
 - form is conecting to mysql databse and inserting, updating, deleting records<br>
 - captcha validate to prevent spam.<br>
 - frontend handled by Twitter Bootstrap.<br>
+
+To activate captcha on your website visit: <br>
+https://www.google.com/recaptcha/intro/v3beta.html </br>
+and follow the instrukctions.
 </p>  
