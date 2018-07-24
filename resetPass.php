@@ -54,10 +54,10 @@ if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['hash'])
           <h2 class="header">Reset your Password</h2>
           <input class="sign" type="password" name="newPass" placeholder="New Password">
           <input class="sign" type="password" name="newPassConfirm" placeholder="Confirm New Password">
-          <input type="hidden" name="us_id" value="<?php $userid; ?>">
-          <input type="hidden" name="us_username" value="<?php $username; ?>">
-          <input type="hidden" name="us_hash" value="<?php $hash; ?>">
-          <input type="hidden" name="us_date" value="<?php $actionDate; ?>">
+          <input type="hidden" name="us_id" value="<?php echo $userid; ?>">
+          <input type="hidden" name="us_username" value="<?php echo $username; ?>">
+          <input type="hidden" name="us_hash" value="<?php echo $hash; ?>">
+          <input type="hidden" name="us_date" value="<?php echo $actionDate; ?>">
 
 
           <button type="submit" name="us_submit" class="btn btn-primary btn-block">Apply</button>
