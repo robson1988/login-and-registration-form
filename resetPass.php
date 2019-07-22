@@ -17,12 +17,12 @@ if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['hash'])
   $_SESSION['username'] = $username;  //store data from GET METHOD in session variable
 
   //check if token is still valid
-  $sql = "SELECT * FROM passres WHERE u_token='$token'";
+  $sql = "SELECT * FROM passres_records WHERE u_token='$token'";
   $result = mysqli_query($connect, $sql);
   $fetchResult = $result->fetch_assoc();
 
   $_SESSION['userid'] = $fetchResult['u_id'];  //get user id from data base and store it in session
-  $_SESSION['resetTime'] = $fetchResult['u_resetTime']; // get timestamp grom database and store it in session
+  $_SESSION['resetTime'] = $fetchResult['u_resetTime']; // get timestamp from database and store it in session
 
   $date = date_create();  // create timestamp for date
   $currentTime = date_timestamp_get($date);
@@ -31,25 +31,25 @@ if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['hash'])
 
   if ($currentTime - $_SESSION['resetTime'] > 3600) {
 
-    $sql = "DELETE FROM passres WHERE u_token='$token' AND u_username='$username'"; //dalete token from database if is no longer valid
+    $sql = "DELETE FROM passres_records WHERE u_token='$token' AND u_username='$username'"; //dalete token from database if is no longer valid
     mysqli_query($connect, $sql);
     
     $_SESSION['msg_error'] = "Sorry, reset link already expired.";
-    header('Location: index.html');
+    header('Location: index.php');
     exit();
       } else {
         //check for existing user data and compare it with token given
-        $sql = "SELECT users.u_username = '$username', users.u_hash = '$hash' FROM users, passres WHERE passres.u_token ='$token' AND users.u_id= passres.u_id";
+        $sql = "SELECT users.u_username = '$username', users.u_hash = '$hash' FROM users, passres_records WHERE passres_records.u_token ='$token' AND users.u_id= passres_records.u_id";
         $result = mysqli_query($connect, $sql);
         $resultCheck = mysqli_num_rows($result);
         if($resultCheck == 0) {
           $_SESSION['msg_error'] = "Sorry, verification failed. Please try again later.";
-          header('Location: index.html');
+          header('Location: index.php');
           exit();
         }
       }
 } else {
-  header('Location: index.html');
+  header('Location: index.php');
   exit();
 }
 

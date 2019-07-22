@@ -10,7 +10,7 @@ session_start();
     //empty input
     if (empty($us_name) || empty($us_pass)) {
       $_SESSION['msg_error'] = "Ooops! U forget to fill out all fields.";
-      header("Location: index.html");
+      header("Location: index.php");
       exit();
     } else {
       $sql = "SELECT * FROM users WHERE u_username='$us_name' OR u_email='$us_name'";
@@ -18,21 +18,21 @@ session_start();
       $resultCheck = mysqli_num_rows($result);
       if ($resultCheck < 1) {
         $_SESSION['msg_error'] = "Ooops! Username or Password doesn't match.";
-        header("Location: index.html");
+        header("Location: index.php");
         exit();
       } else {
         if ($row = mysqli_fetch_assoc($result)) {
           $active = $row['active'];
           if($active == 0) {
             $_SESSION['msg_error'] = "Account not activated. Please activate before you log in.";
-            header("Location: index.html");
+            header("Location: index.php");
             exit();
           } else {
           //CHECKING PASSWORD MATCHING
           $hashedPwdCheck = password_verify($us_pass, $row['u_pass']);
           if($hashedPwdCheck == false ){
            $_SESSION['msg_error'] = "Ooops! Username or Password doesn't match.";
-           header("Location: index.html");
+           header("Location: index.php");
            exit();
          } elseif ($hashedPwdCheck == true ) {
             //LOGIN USER
@@ -45,7 +45,7 @@ session_start();
             $_SESSION['us_adress'] = $row['u_adress'];
             $_SESSION['us_birthday'] = $row['u_birthday'];
 
-            header("Location: panel.html");
+            header("Location: panel.php");
             exit();
             }
           }
@@ -53,6 +53,6 @@ session_start();
       }
     }
   } else {
-  header("Location: index.html");
+  header("Location: index.php");
   exit();
 }

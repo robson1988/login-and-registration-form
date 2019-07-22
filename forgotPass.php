@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   //user doesn't exist
   if($resultCheck == 0) {
     $_SESSION['msg_error'] = "User with that email doesn't exist!";
-    header('Location: index.html');
+    header('Location: index.php');
     exit();
   } else {
       //user exist, fetch user data from database to array
@@ -30,9 +30,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $date = date_create();
       $token = hash("sha256", date_timestamp_get($date).$salt);
       $time = date_timestamp_get($date);
+	 
 
       //insert into db time and token
-      $sql = "INSERT INTO passres (u_id, u_username, u_token, u_resetTime) VALUES ('$id', '$username','$token', '$time')";
+      $sql = "INSERT INTO passres_records (u_id, u_username, u_token, u_resetTime) VALUES ('$id', '$username','$token', '$time')";
       mysqli_query($connect, $sql);
 
       //session msg to display on success.php
@@ -42,12 +43,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       //send reset link reset.php
       $to = $email;
       $subject = 'Password reset link.';
+	  $headers= "From: robert.bajoo@gmail.com\r\n";
       $message = 'Hello '.$username.',
       You have requested password reset!
       Please click this link to reset your password:
-      http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM/resetPass.php?username='.$username.'&hash='.$hash.'&token='.$token;
-      mail($to, $subject, $message);
-      header('Location: index.html');
+      http://localhost/login-and-registration-form-master/resetPass.php?username='.$username.'&hash='.$hash.'&token='.$token;
+      mail($to, $subject, $message, $headers);
+      header('Location: index.php');
 
   }
 }

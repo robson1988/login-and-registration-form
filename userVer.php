@@ -22,7 +22,7 @@ if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['hash'])
   //ACOUNT ACTIVATION CHECK
   if($active == 1){
     $_SESSION['msg_error'] = "Account have been already activated. You can login to your account.";
-    header('Location: index.html');
+    header('Location: index.php');
     exit();
   } else {
     $sql = "UPDATE users SET active='1' WHERE u_username='$username' AND u_hash='$hash'";
@@ -36,13 +36,13 @@ if(isset($_GET['username']) && !empty($_GET['username']) && isset($_GET['hash'])
     mysqli_query($connect, $dataInsert);
 
     $_SESSION['msg_success'] = "Account activated. You can login to your account.";
-    header('Location: index.html');
+    header('Location: index.php');
     exit();
   }
 
 } else {
   $_SESSION['msg_error'] = "Activation failed, please try again.";
-  header('Location: index.html');
+  header('Location: index.php');
   exit();
 
 }

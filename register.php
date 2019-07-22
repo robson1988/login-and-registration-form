@@ -25,56 +25,56 @@ if (isset($_POST['new_us_submit'])) {
   //empty inputs
   if(empty($new_us_username) || empty($new_us_name) || empty($new_us_surname) || empty($new_us_mail) || empty($new_us_pass)) {
     $_SESSION['msg_error'] = "Empty fields left. All fields are required!";
-    header('Location: signin.html');
+    header('Location: signin.php');
     exit();
   }  else {
     //username length check
       if(strlen($new_us_username) < 5 || strlen($new_us_username) > 20) {
         $_SESSION['msg_error'] = "Incorrrect username. Username must be at least 5 characters long and contain one number!";
-        header('Location: signin.html');
+        header('Location: signin.php');
         exit();
         //username correct symbols check
         } else {
         if (!preg_match("/^[0-9a-zA-Z]*$/", $new_us_username)) {
           $_SESSION['msg_error'] = "Unvalid symbols in username field!";
-          header('Location: signin.html');
+          header('Location: signin.php');
           exit();
           } else {
           //username numbers contain check
           if (!preg_match("#[0-9]#", $new_us_username)) {
             $_SESSION['msg_error'] = "Username mus't contain at least one number!";
-            header('Location: signin.html');
+            header('Location: signin.php');
             exit();
             } else {
             //name and surname letters only check
             if(!preg_match("/^[a-zA-Z]*$/", $new_us_name) || !preg_match("/^[a-zA-Z]*$/", $new_us_surname)) {
               $_SESSION['msg_error'] = "Unvalid symbols. Name and surname must contain only letters!";
-              header('Location: signin.html');
+              header('Location: signin.php');
               exit();
               } else {
               //email validate and sanitize check
               $new_us_mailCheck = filter_var($new_us_mail, FILTER_SANITIZE_EMAIL);
               if(filter_var($new_us_mailCheck, FILTER_VALIDATE_EMAIL) == false || ($new_us_mail!=$new_us_mailCheck)) {
                 $_SESSION['msg_error'] = "Invalid e-mail adress!";
-                header('Location: signin.html');
+                header('Location: signin.php');
                 exit();
                 } else {
                 // password lenght check
                 if(strlen($new_us_pass) < 6) {
                   $_SESSION['msg_error'] = "Password should be at least 6 characters long!";
-                  header('Location: signin.html');
+                  header('Location: signin.php');
                   exit();
                   } else {
                   //passwords match check
                   if(($new_us_pass)!=($new_us_pass_re)) {
                     $_SESSION['msg_error'] = "Passwords doesn't match!";
-                    header('Location: signin.html');
+                    header('Location: signin.php');
                     exit();
                     } else {
                     //checkbox checked
                     if(!isset($_POST['check_accept'])) {
                       $_SESSION['msg_error'] = "To register you have to accept our policy!";
-                      header('Location: signin.html');
+                      header('Location: signin.php');
                       exit();
                       } else {
                       //captcha check
@@ -83,7 +83,7 @@ if (isset($_POST['new_us_submit'])) {
                       $validate = json_decode($captchaCheck);
                       if($validate->success == false) {
                         $_SESSION['msg_error'] = "Captcha required!";
-                        header('Location: signin.html');
+                        header('Location: signin.php');
                         exit();
                         } else {
                         //connection check
@@ -97,7 +97,7 @@ if (isset($_POST['new_us_submit'])) {
                               $resultCheck = mysqli_num_rows($result);
                               if($resultCheck > 0) {
                                 $_SESSION['msg_error'] = "Email adress already in use!";
-                                header('Location: signin.html');
+                                header('Location: signin.php');
                                 exit();
                               } else {
                                 //comparing existing username in database with provided username in registration form
@@ -106,7 +106,7 @@ if (isset($_POST['new_us_submit'])) {
                                 $resultCheck = mysqli_num_rows($result);
                                 if($resultCheck > 0) {
                                   $_SESSION['msg_error'] = "Username already in use!";
-                                  header('Location: signin.html');
+                                  header('Location: signin.php');
                                   exit();
                                 } else {
                                   //password hashing
@@ -119,14 +119,23 @@ if (isset($_POST['new_us_submit'])) {
                                   //send activation link userVer.php
                                   $to = $new_us_mail;
                                   $subject = 'Account verification link.';
+								  $headers = "From: robert.bajoo@gmail.com\r\n";
                                   $message = 'Hello '.$new_us_username.',
                                   Welcome in our store.
                                   Please click this link to activate your account:
-                                  http://localhost/GITHUB-LOGIN_AND_REGISTRATION_FORM/userVer.php?username='.$new_us_username.'&hash='.$hash;
-                                  mail($to, $subject, $message);
+                                  http://localhost/login-and-registration-form-master/userVer.php?username='.$new_us_username.'&hash='.$hash;
+                                  if (mail($to, $subject, $message, $headers)) {
+									  $_SESSION['msg_success'] = "New account created! Please check your email $new_us_mail for verification link.";
+									header('Location: index.php');
+								  } else { echo "error"."</br>";
+								  echo $to."</br>";
+								  echo $subject."</br>";
+								  echo $message."</br>";
+								  
+							
+								  }
 
-                                  $_SESSION['msg_success'] = "New account created! Please check your email $new_us_mail for verification link.";
-                                  header('Location: index.html');
+                                  
                                 }
                               }
                               $connect->close();
