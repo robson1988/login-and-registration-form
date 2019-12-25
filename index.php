@@ -46,7 +46,7 @@ if (isset($_SESSION['msg_success'])) {
          <div class="divider text-center mt-2 mb-1">
            <h6>New to "store/website name"?</h6>
          </div>
-           <a class="btn btn-primary btn-block" href="signin.html" role="button">Create new account</a>
+           <a class="btn btn-primary btn-block" href="signin.php" role="button">Create new account</a>
         </div>
     </div>
   </div>

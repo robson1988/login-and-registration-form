@@ -15,7 +15,7 @@
 .policy {font-size: .8rem; padding: 0 .5rem;}
 .input-group-text p {margin:0;}
 .input-group-text {background-color: transparent; border:none;}
-.captcha {align-content: center;}
+
 
 .reset {position:absolute; top:calc(50% - 100px); left:calc(50% - 194px); height:200px;}
 .reset .btn {margin-top: 1rem;}

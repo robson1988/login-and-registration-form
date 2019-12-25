@@ -6,7 +6,7 @@ session_start();
 
 
 if(!isset($_POST['us_submit'])) {
-  header('Location: index.html');
+  header('Location: index.php');
   exit();
 
 } else {
@@ -19,7 +19,7 @@ if(!isset($_POST['us_submit'])) {
         if(strlen($newPass) < 6) {
 
           $_SESSION['msg_error'] = "To short password, 6 characters minimum! PLease try again.";
-          header('Location: index.html');
+          header('Location: index.php');
           exit();
           } else {
           $password = password_hash($newPass, PASSWORD_DEFAULT);
@@ -41,19 +41,19 @@ if(!isset($_POST['us_submit'])) {
 
           mysqli_query($connect, $dataInsert);
 
-          //DALETE TEPORARY DATA FROM TABLE AFTER COMPLETED ACTION
+          //DALETE TEMPORARY DATA FROM TABLE AFTER COMPLETED ACTION
           $dataDelete = "DELETE FROM passres WHERE u_id='$userid' AND u_username='$username'";
 
           mysqli_query($connect, $dataDelete);
 
           $_SESSION['msg_success'] = "Your password has been updated.";
-          header('Location: index.html');
+          header('Location: index.php');
           exit();
           }
       }
   } else {
   $_SESSION['msg_error'] = "Sorry, passwords does't match. Please try again.";
-  header('Location: index.html');
+  header('Location: index.php');
   exit();
 }
 }
