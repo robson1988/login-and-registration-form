@@ -9,6 +9,7 @@ session_start();
     //error handlers
     //empty input
     if (empty($us_name) || empty($us_pass)) {
+
       $_SESSION['msg_error'] = "Ooops! U forget to fill out all fields.";
       header("Location: index.html");
       exit();
